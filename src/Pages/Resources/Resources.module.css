@@ -1,0 +1,248 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,400&family=Syne:wght@400;500;600;700;800&display=swap');
+
+:root {
+  --navy:  #0d1b3e;
+  --navy2: #112250;
+  --sand:  #D9CBC2;
+  --gold:  #E0C58F;
+  --gold2: #c9a96e;
+  --card:  rgba(217,203,194,0.06);
+  --border: rgba(217,203,194,0.1);
+}
+
+/* ── Base ── */
+.page {
+  min-height: 100vh;
+  background: var(--navy);
+  color: var(--sand);
+  font-family: 'Syne', sans-serif;
+  padding-top: 90px;
+  padding-bottom: 90px;
+}
+
+
+.pageHeader {
+  text-align: center;
+  padding: 48px 40px 40px;
+  position: relative;
+  z-index: 2;
+}
+
+.pageHeader h1 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(38px, 6vw, 64px);
+  font-weight: 700;
+  color: var(--sand);
+  margin-bottom: 12px;
+  line-height: 1.05;
+}
+
+.pageHeader h1 em {
+  font-style: italic;
+  color: var(--gold);
+  font-weight: 400;
+}
+
+.pageHeader p {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 18px;
+  opacity: 0.5;
+  font-style: italic;
+}
+
+.yearTabs {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding: 0 40px 48px;
+  position: relative;
+  z-index: 2;
+}
+
+.yearTab {
+  background: var(--card);
+  border: 1px solid var(--border);
+  color: var(--sand);
+  font-family: 'Syne', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 10px 24px;
+  border-radius: 28px;
+  cursor: pointer;
+  transition: background 0.22s, border-color 0.22s, transform 0.18s, color 0.22s;
+  opacity: 0.6;
+}
+
+.yearTab:hover {
+  opacity: 1;
+  border-color: rgba(217,203,194,0.3);
+  transform: translateY(-2px);
+}
+
+.yearTab.active {
+  background: var(--sand);
+  color: var(--navy);
+  border-color: var(--sand);
+  opacity: 1;
+  box-shadow: 0 4px 20px rgba(217,203,194,0.15);
+}
+
+.content {
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 0 40px;
+  animation: fadeIn 0.4s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.yearLabel {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.yearLabel h2 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--sand);
+}
+
+.yearLabel .badge {
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+  background: rgba(224,197,143,0.08);
+  border: 1px solid rgba(224,197,143,0.2);
+  padding: 4px 14px;
+  border-radius: 20px;
+}
+
+
+.semesterGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+@media (max-width: 700px) {
+  .semesterGrid { grid-template-columns: 1fr; }
+  .yearTabs { gap: 6px; }
+  .yearTab { font-size: 11px; padding: 8px 16px; }
+  .content { padding: 0 16px; }
+}
+
+
+.semCard {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  overflow: hidden;
+  transition: border-color 0.25s, box-shadow 0.25s;
+}
+
+.semCard:hover {
+  border-color: rgba(217,203,194,0.2);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.25);
+}
+
+.semHeader {
+  background: linear-gradient(135deg, #2d4a8a, #1a3068);
+  padding: 18px 24px;
+  text-align: center;
+}
+
+.semHeader h3 {
+  font-family: 'Syne', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #fff;
+}
+
+
+.moduleList {
+  padding: 8px 0;
+}
+
+.moduleItem {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 13px 22px;
+  border-bottom: 1px solid rgba(217,203,194,0.07);
+  cursor: pointer;
+  transition: background 0.18s, padding-left 0.18s;
+  position: relative;
+  overflow: hidden;
+}
+
+.moduleItem:last-child { border-bottom: none; }
+
+.moduleItem::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 3px;
+  background: var(--gold);
+  transform: scaleY(0);
+  transition: transform 0.2s ease;
+  transform-origin: center;
+}
+
+.moduleItem:hover {
+  background: rgba(217,203,194,0.05);
+  padding-left: 28px;
+}
+
+.moduleItem:hover::before { transform: scaleY(1); }
+
+.fileIcon {
+  color: var(--gold);
+  font-size: 18px;
+  flex-shrink: 0;
+  transition: transform 0.2s;
+}
+
+.moduleItem:hover .fileIcon {
+  transform: rotate(-6deg) scale(1.1);
+}
+
+.moduleName {
+  font-family: 'Syne', sans-serif;
+  font-size: 13.5px;
+  font-weight: 500;
+  color: var(--sand);
+  opacity: 0.85;
+  transition: opacity 0.2s;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.moduleItem:hover .moduleName { opacity: 1; }
+
+.moduleArrow {
+  margin-left: auto;
+  font-size: 12px;
+  color: var(--gold);
+  opacity: 0;
+  transform: translateX(-6px);
+  transition: opacity 0.2s, transform 0.2s;
+  flex-shrink: 0;
+}
+
+.moduleItem:hover .moduleArrow {
+  opacity: 0.7;
+  transform: translateX(0);
+}
