@@ -1,11 +1,264 @@
-import Header from '../../Components/Header/Header.jsx';
-import { useState } from "react";
-function Chat(){
-    return(<>
+import { Send, Pin, MonitorDot } from "lucide-react";
+import { useState, useEffect, useRef } from "react";
+ import Header from '../../Components/Header/Header.jsx'
+export default function Chat({ selectedYear }) {
+  const [input, setInput] = useState("");
 
-    </>)
+  const [messages, setMessages] = useState([
+    {
+      id: 1,
+      name: "Ahlem",
+      text: "Does anyone have a clean summary for Analysis ?",
+      time: "10:14 AM",
+      isMe: false,
+      avatar: "https://i.pravatar.cc/40?img=1",
+    },
+    {
+      id: 2,
+      name: "You",
+      text: "I can share a cheat sheet after my timer ends.",
+      time: "10:18 AM",
+      isMe: true,
+    },
+  ]);
+
+  const bottomRef = useRef(null);
+
+  // Auto scroll
+  useEffect(() => {
+    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
+
+  const roomName = (() => {
+    if (selectedYear === "1CP") return "1CP Main Room";
+    if (selectedYear === "2CP") return "2CP Main Room";
+    if (selectedYear === "1CS") return "1CS Main Room";
+    if (selectedYear === "2CS") return "2CS Main Room";
+    return "Chat Room";
+  })();
+
+  const handleSend = () => {
+    if (!input.trim()) return;
+
+    const newMessage = {
+      id: Date.now(),
+      name: "You",
+      text: input,
+      time: new Date().toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+      }),
+      isMe: true,
+    };
+
+    setMessages((prev) => [...prev, newMessage]);
+    setInput("");
+  };
+
+  return (
+    <>
+    <Header year={selectedYear}></Header>
+    <div
+      className="min-h-screen p-6  pt-28 text-white"
+      style={{
+        background:
+          "linear-gradient(135deg, #1a1035 0%, #0d1b3e 60%, #1a1035 100%)",
+      }}
+    >
+    
+
+      {/* CARD */}
+      <div
+        className="rounded-3xl p-5 flex flex-col"
+        style={{
+          height: "82vh",
+          background: "rgba(245, 224, 233, 0.07)",
+          border: "0.5px solid rgba(245, 224, 233, 0.18)",
+        }}
+      >
+        {/* HEADER */}
+        <div
+          className="pb-4"
+          style={{
+            borderBottom: "0.5px solid rgba(245, 224, 233, 0.12)",
+          }}
+        >
+          <h2
+            className="mb-2"
+            style={{ color: "#f5e0e9", fontSize: "17px" }}
+          >
+            {roomName}
+          </h2>
+
+          <div className="flex gap-2 flex-wrap">
+            <span
+              className="flex items-center gap-1 text-xs px-3 py-1 rounded-full"
+              style={{
+                background: "rgba(245, 224, 233, 0.12)",
+                border: "0.5px solid rgba(245, 224, 233, 0.2)",
+                color: "rgba(245, 224, 233, 0.8)",
+              }}
+            >
+              <MonitorDot size={12} />
+              28 online now
+            </span>
+
+            <span
+              className="flex items-center gap-1 text-xs px-3 py-1 rounded-full"
+              style={{
+                background: "rgba(245, 224, 233, 0.12)",
+                border: "0.5px solid rgba(245, 224, 233, 0.2)",
+                color: "rgba(245, 224, 233, 0.8)",
+              }}
+            >
+              <Pin size={12} />
+              4 pinned resources
+            </span>
+          </div>
+        </div>
+
+        {/* MESSAGES */}
+        <div className="flex-1 overflow-y-auto py-4 flex flex-col gap-4">
+          {messages.map((msg) => (
+            <div
+              key={msg.id}
+              className={`flex ${
+                msg.isMe ? "justify-end" : "items-end gap-2"
+              }`}
+            >
+              {/* LEFT */}
+              {!msg.isMe && (
+                <>
+                  <img
+                    src={msg.avatar}
+                    alt=""
+                    className="w-8 h-8 rounded-full"
+                    style={{
+                      border: "1.5px solid rgba(245,224,233,0.2)",
+                    }}
+                  />
+
+                  <div style={{ maxWidth: "65%" }}>
+                    <div
+                      className="text-xs mb-1"
+                      style={{
+                        color: "rgba(245,224,233,0.5)",
+                      }}
+                    >
+                      {msg.name}
+                    </div>
+
+                    <div
+                      className="px-4 py-2 text-sm"
+                      style={{
+                        background: "rgba(245,224,233,0.13)",
+                        border: "0.5px solid rgba(245,224,233,0.18)",
+                        borderRadius: "18px 18px 18px 5px",
+                        color: "#f5e0e9",
+                      }}
+                    >
+                      {msg.text}
+                    </div>
+
+                    <div
+                      className="text-xs mt-1"
+                      style={{
+                        color: "rgba(245,224,233,0.32)",
+                      }}
+                    >
+                      {msg.time}
+                    </div>
+                  </div>
+                </>
+              )}
+
+              {/* RIGHT */}
+              {msg.isMe && (
+                <div
+                  className="flex flex-col items-end"
+                  style={{ maxWidth: "65%" }}
+                >
+                  <div
+                    className="text-xs mb-1"
+                    style={{
+                      color: "rgba(245,224,233,0.5)",
+                    }}
+                  >
+                    {msg.name}
+                  </div>
+
+                  <div
+                    className="px-4 py-2 text-sm"
+                    style={{
+                      background:
+                        "linear-gradient(135deg, #3d3070, #4a2a7a)",
+                      border:
+                        "0.5px solid rgba(180,140,220,0.3)",
+                      borderRadius: "18px 18px 5px 18px",
+                      color: "#f5e0e9",
+                    }}
+                  >
+                    {msg.text}
+                  </div>
+
+                  <div
+                    className="text-xs mt-1"
+                    style={{
+                      color: "rgba(245,224,233,0.32)",
+                    }}
+                  >
+                    {msg.time}
+                  </div>
+                </div>
+              )}
+            </div>
+          ))}
+
+          {/* AUTO SCROLL TARGET */}
+          <div ref={bottomRef}></div>
+        </div>
+
+        {/* INPUT */}
+        <div
+          className="flex items-center gap-2 px-4 py-2 mt-2 rounded-full"
+          style={{
+            background: "rgba(245,224,233,0.08)",
+            border: "0.5px solid rgba(245,224,233,0.18)",
+          }}
+        >
+          <input
+            type="text"
+            placeholder={`Message ${selectedYear} room...`}
+            className="flex-1 bg-transparent outline-none text-sm"
+            style={{ color: "#f5e0e9" }}
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            onKeyDown={(e) =>
+              e.key === "Enter" && handleSend()
+            }
+          />
+
+          <button
+            className="flex items-center justify-center rounded-full hover:scale-105 transition"
+            style={{
+              width: "36px",
+              height: "36px",
+              background: input.trim()
+                ? "#3a2870"
+                : "rgba(245,224,233,0.08)",
+              color: input.trim()
+                ? "#f5e0e9"
+                : "rgba(245,224,233,0.25)",
+              cursor: input.trim() ? "pointer" : "not-allowed",
+            }}
+            onClick={handleSend}
+            disabled={!input.trim()}
+          >
+            <Send size={16} />
+          </button>
+        </div>
+      </div>
+    </div>
+  </>);
 }
-export default Chat
-
-
  

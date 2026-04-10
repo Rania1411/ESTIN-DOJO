@@ -13,7 +13,7 @@ function Header() {
   const [image] = useState(proImg);
 
   const navLinks = [
-    { path: '/',            icon: <LuTimer />,     label: 'Timer' },
+    { path: '/Dashboard',            icon: <LuTimer />,  label: 'Timer' },
     { path: '/Leaderboard', icon: <FaTrophy />,    label: 'Leaderboard' },
     { path: '/Resources',   icon: <FaBookOpen />,  label: 'Resources' },
     { path: '/Chat',        icon: <FaComments />,  label: 'Chat' },
