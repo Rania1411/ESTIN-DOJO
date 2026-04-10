@@ -1,7 +1,11 @@
 import Header from '../../Components/Header/Header.jsx';
+import { useState } from "react";
 function Chat(){
     return(<>
-    <Header></Header>
-    <p>chat chat</p></>)
+
+    </>)
 }
 export default Chat
+
+
+ 
