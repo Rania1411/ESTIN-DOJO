@@ -3,7 +3,8 @@ import Header from './Components/Header/Header.jsx'
 import Landing from './Pages/Landing/Landing.jsx'
 import Login from './Pages/Login/Login.jsx'
 import Leaderboard from "./Pages/Leaderboard/Leaderboard.jsx";
-import Dashboard from "./Pages/Dashboard/Dashboard.jsx";
+import Timer from "./Pages/Dashboard/Timer.jsx";
+import MiniTimer from "./Pages/Dashboard/MiniTimer.jsx";
 import Chat from "./Pages/Chat/Chat.jsx";
 import Resources from './Pages/Resources/Resources.jsx'
 import { Routes, Route } from "react-router-dom";
