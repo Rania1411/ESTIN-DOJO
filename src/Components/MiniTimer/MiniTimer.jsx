@@ -2,29 +2,33 @@ import { useEffect, useRef, useState } from "react";
 import { Play, Pause } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
-const formatTime = (seconds) =>
-  `${Math.floor(seconds / 60)
+const formatTime = (seconds) => {
+  const s = typeof seconds === "number" ? seconds : 0; // ✅ prevent NaN
+  return `${Math.floor(s / 60)
     .toString()
-    .padStart(2, "0")}:${(seconds % 60).toString().padStart(2, "0")}`;
+    .padStart(2, "0")}:${(s % 60).toString().padStart(2, "0")}`;
+};
 
 export default function MiniTimer({
-  time,
-  isRunning,
-  toggleRunning,
-  mode,
-  moduleName,
+  time = 0,              // ✅ default values
+  isRunning = false,
+  toggleRunning = () => {},
+  mode = "Pomodoro",
+  moduleName = "",
 }) {
   const navigate = useNavigate();
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [dragging, setDragging] = useState(false);
   const dragStartRef = useRef({ x: 0, y: 0, originX: 0, originY: 0 });
 
+  // ✅ initial position (bottom right)
   useEffect(() => {
-    const initialX = window.innerWidth - 240 - 16;
-    const initialY = window.innerHeight - 176 - 16;
+    const initialX = window.innerWidth - 260;
+    const initialY = window.innerHeight - 180;
     setPosition({ x: initialX, y: initialY });
   }, []);
 
+  // ✅ drag logic
   useEffect(() => {
     if (!dragging) return;
 
@@ -39,9 +43,7 @@ export default function MiniTimer({
       });
     };
 
-    const handleMouseUp = () => {
-      setDragging(false);
-    };
+    const handleMouseUp = () => setDragging(false);
 
     window.addEventListener("mousemove", handleMouseMove);
     window.addEventListener("mouseup", handleMouseUp);
@@ -65,26 +67,28 @@ export default function MiniTimer({
 
   return (
     <div
-      className="fixed z-50 w-60 rounded-3xl bg-[#1e3667]/95 border-2 border-[#112250]/70 p-3 shadow-[0_20px_60px_rgba(0,0,0,0.35)] backdrop-blur-sm"
+      className="fixed z-50 w-60 rounded-3xl bg-[#1e3667]/95 border border-white/10 p-3 shadow-xl backdrop-blur-sm"
       style={{
         left: position.x,
         top: position.y,
         cursor: dragging ? "grabbing" : "default",
       }}
     >
+      {/* HEADER */}
       <div
         onMouseDown={startDrag}
         className="flex items-start justify-between gap-3 cursor-move"
       >
         <div>
-          <p className="text-xs uppercase tracking-[0.2em] text-[#f5e0e9]/70">
+          <p className="text-xs uppercase tracking-[0.2em] text-white/60">
             Timer
           </p>
           <p className="text-lg font-semibold text-white">{mode}</p>
         </div>
+
         <button
           onClick={toggleRunning}
-          className="rounded-full bg-[#dfb259]/90 p-2 text-[#112250] transition hover:bg-[#e0c58f]/95"
+          className="rounded-full bg-[#dfb259] p-2 text-[#112250] hover:brightness-110"
         >
           {isRunning ? (
             <Pause className="w-4 h-4" />
@@ -94,14 +98,20 @@ export default function MiniTimer({
         </button>
       </div>
 
-      <p className="mt-3 text-4xl font-bold text-white">{formatTime(time)}</p>
-      <p className="text-sm text-[#f5e0e9]/70">
-        {moduleName ? `Module: ${moduleName}` : "Open Timer to select module"}
+      {/* TIME */}
+      <p className="mt-3 text-4xl font-bold text-white">
+        {formatTime(time)}
       </p>
 
+      {/* MODULE */}
+      <p className="text-sm text-white/60">
+        {moduleName ? `Module: ${moduleName}` : "No module selected"}
+      </p>
+
+      {/* NAVIGATION */}
       <button
-        onClick={() => navigate("/Timer")}
-        className="mt-4 w-full rounded-full bg-[#dfb259]/90 px-4 py-2 text-sm font-semibold text-[#112250] transition hover:bg-[#e0c58f]/95 cursor-pointer"
+        onClick={() => navigate("/Dashboard")} // ✅ FIXED ROUTE
+        className="mt-4 w-full rounded-full bg-[#dfb259] px-4 py-2 text-sm font-semibold text-[#112250] hover:brightness-110"
       >
         Open full timer
       </button>
