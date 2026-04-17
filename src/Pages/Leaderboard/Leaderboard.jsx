@@ -1,5 +1,4 @@
 import Header from '../../Components/Header/Header.jsx';
-import Footer from '../../Components/Footer/Footer.jsx';
 import styles from './Leaderboard.module.css';
 import pic from '../../assets/pro.jpg';
 import { useState, useEffect } from "react";
@@ -110,7 +109,7 @@ function Leaderboard() {
 
         </div>
       </div>
-      <Footer />
+     
     </>
   );
 }

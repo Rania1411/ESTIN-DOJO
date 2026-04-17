@@ -22,7 +22,6 @@
   transition: box-shadow 0.3s;
 }
 
-/* ── Logo ── */
 .logoContainer {
   display: flex;
   align-items: center;
@@ -31,6 +30,7 @@
 }
 
 .logoContainer img {
+  margin-top: -8px;
   width: 110px;
   height: 110px;
   object-fit: contain;
@@ -60,11 +60,11 @@
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: #112250;
-  opacity: 0.6;
-  font-family: 'Courier New', monospace;
+  opacity: 0.8;
+  font-family: 'araial', monospace;
 }
 
-/* ── Nav ── */
+
 .listContainer {
   display: flex;
   align-items: center;
@@ -102,12 +102,11 @@
   opacity: 1;
 }
 
-/* ── Active link ── */
+
 .activeLink {
   background: rgba(17, 34, 80, 0.09);
 }
 
-/* ── User info ── */
 .infoContainer {
   display: flex;
   align-items: center;

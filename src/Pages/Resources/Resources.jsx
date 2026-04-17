@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import Header from '../../Components/Header/Header.jsx';
-import Footer from '../../Components/Footer/Footer.jsx';
 import styles from './Resources.module.css';
 import { FaRegFile } from 'react-icons/fa';
 import { FiChevronRight } from 'react-icons/fi';
@@ -171,7 +170,7 @@ function Resources() {
         </div>
 
       </div>
-      <Footer />
+   
     </>
   );
 }
