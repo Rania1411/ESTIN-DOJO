@@ -1,6 +1,7 @@
-import { Send, Pin, MonitorDot } from "lucide-react";
+import { Send, MonitorDot } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
- import Header from '../../Components/Header/Header.jsx'
+import Header from "../../Components/Header/Header.jsx";
+
 export default function Chat({ selectedYear }) {
   const [input, setInput] = useState("");
 
@@ -24,18 +25,9 @@ export default function Chat({ selectedYear }) {
 
   const bottomRef = useRef(null);
 
-  // Auto scroll
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
-
-  const roomName = (() => {
-    if (selectedYear === "1CP") return "1CP Main Room";
-    if (selectedYear === "2CP") return "2CP Main Room";
-    if (selectedYear === "1CS") return "1CS Main Room";
-    if (selectedYear === "2CS") return "2CS Main Room";
-    return "Chat Room";
-  })();
 
   const handleSend = () => {
     if (!input.trim()) return;
@@ -57,93 +49,112 @@ export default function Chat({ selectedYear }) {
 
   return (
     <>
-    <Header year={selectedYear}></Header>
-    <div
-      className="min-h-screen p-6  pt-28 text-white"
-      style={{
-        background:
-          "linear-gradient(135deg, #1a1035 0%, #0d1b3e 60%, #1a1035 100%)",
-      }}
-    >
-    
+      <Header year={selectedYear} />
 
-      {/* CARD */}
       <div
-        className="rounded-3xl p-5 flex flex-col"
+        className="min-h-screen p-6 pt-28 text-white"
         style={{
-          height: "82vh",
-          background: "rgba(245, 224, 233, 0.07)",
-          border: "0.5px solid rgba(245, 224, 233, 0.18)",
+          background:
+            "linear-gradient(135deg, #0d1b3e 0%, #112250 60%, #0d1b3e 100%)",
         }}
       >
-        {/* HEADER */}
         <div
-          className="pb-4"
+          className="rounded-3xl p-5 flex flex-col"
           style={{
-            borderBottom: "0.5px solid rgba(245, 224, 233, 0.12)",
+            height: "82vh",
+            background: "rgba(217,203,194,0.06)",
+            border: "0.5px solid rgba(217,203,194,0.18)",
           }}
         >
-          <h2
-            className="mb-2"
-            style={{ color: "#f5e0e9", fontSize: "17px" }}
+          <div
+            className="pb-4"
+            style={{
+              borderBottom: "0.5px solid rgba(217,203,194,0.12)",
+            }}
           >
-            {roomName}
-          </h2>
-
-          <div className="flex gap-2 flex-wrap">
-            <span
-              className="flex items-center gap-1 text-xs px-3 py-1 rounded-full"
+            <h2
+              className="mb-3"
               style={{
-                background: "rgba(245, 224, 233, 0.12)",
-                border: "0.5px solid rgba(245, 224, 233, 0.2)",
-                color: "rgba(245, 224, 233, 0.8)",
+                color: "var(--sand)",
+                fontSize: "20px",
+                fontWeight: "600",
               }}
             >
-              <MonitorDot size={12} />
-              28 online now
-            </span>
+              {selectedYear ? `${selectedYear} Main Room` : "Main Room"}
+            </h2>
 
-            <span
-              className="flex items-center gap-1 text-xs px-3 py-1 rounded-full"
-              style={{
-                background: "rgba(245, 224, 233, 0.12)",
-                border: "0.5px solid rgba(245, 224, 233, 0.2)",
-                color: "rgba(245, 224, 233, 0.8)",
-              }}
-            >
-              <Pin size={12} />
-              4 pinned resources
-            </span>
+            <div className="flex gap-2">
+              <span
+                className="flex items-center gap-2 text-xs px-4 py-1 rounded-full"
+                style={{
+                  background: "rgba(224,197,143,0.2)",
+                  color: "#0d1b3e",
+                  fontWeight: "500",
+                }}
+              >
+                <MonitorDot size={12} />
+                28 online now
+              </span>
+            </div>
           </div>
-        </div>
 
-        {/* MESSAGES */}
-        <div className="flex-1 overflow-y-auto py-4 flex flex-col gap-4">
-          {messages.map((msg) => (
-            <div
-              key={msg.id}
-              className={`flex ${
-                msg.isMe ? "justify-end" : "items-end gap-2"
-              }`}
-            >
-              {/* LEFT */}
-              {!msg.isMe && (
-                <>
-                  <img
-                    src={msg.avatar}
-                    alt=""
-                    className="w-8 h-8 rounded-full"
-                    style={{
-                      border: "1.5px solid rgba(245,224,233,0.2)",
-                    }}
-                  />
+          <div className="flex-1 overflow-y-auto py-4 flex flex-col gap-4">
+            {messages.map((msg) => (
+              <div
+                key={msg.id}
+                className={`flex ${
+                  msg.isMe ? "justify-end" : "items-end gap-2"
+                }`}
+              >
+                {!msg.isMe && (
+                  <>
+                    <img
+                      src={msg.avatar}
+                      alt=""
+                      className="w-8 h-8 rounded-full"
+                      style={{
+                        border: "1.5px solid rgba(217,203,194,0.2)",
+                      }}
+                    />
 
-                  <div style={{ maxWidth: "65%" }}>
+                    <div style={{ maxWidth: "65%" }}>
+                      <div
+                        className="text-xs mb-1"
+                        style={{ color: "rgba(217,203,194,0.5)" }}
+                      >
+                        {msg.name}
+                      </div>
+
+                      <div
+                        className="px-4 py-2 text-sm"
+                        style={{
+                          background: "rgba(217,203,194,0.13)",
+                          border: "0.5px solid rgba(217,203,194,0.18)",
+                          borderRadius: "18px 18px 18px 5px",
+                          color: "#D9CBC2",
+                        }}
+                      >
+                        {msg.text}
+                      </div>
+
+                      <div
+                        className="text-xs mt-1"
+                        style={{ color: "rgba(217,203,194,0.32)" }}
+                      >
+                        {msg.time}
+                      </div>
+                    </div>
+                  </>
+                )}
+
+                {msg.isMe && (
+                  <div
+                    className="flex flex-col items-end"
+                    style={{ maxWidth: "65%" }}
+                  >
                     <div
                       className="text-xs mb-1"
-                      style={{
-                        color: "rgba(245,224,233,0.5)",
-                      }}
+                      style={{ color: "rgba(217,203,194,0.5)" }}
                     >
                       {msg.name}
                     </div>
@@ -151,10 +162,11 @@ export default function Chat({ selectedYear }) {
                     <div
                       className="px-4 py-2 text-sm"
                       style={{
-                        background: "rgba(245,224,233,0.13)",
-                        border: "0.5px solid rgba(245,224,233,0.18)",
-                        borderRadius: "18px 18px 18px 5px",
-                        color: "#f5e0e9",
+                        background:
+                          "linear-gradient(135deg, #1a3068, #0d1b3e)",
+                        border: "0.5px solid rgba(224,197,143,0.25)",
+                        borderRadius: "18px 18px 5px 18px",
+                        color: "#D9CBC2",
                       }}
                     >
                       {msg.text}
@@ -162,103 +174,57 @@ export default function Chat({ selectedYear }) {
 
                     <div
                       className="text-xs mt-1"
-                      style={{
-                        color: "rgba(245,224,233,0.32)",
-                      }}
+                      style={{ color: "rgba(217,203,194,0.32)" }}
                     >
                       {msg.time}
                     </div>
                   </div>
-                </>
-              )}
+                )}
+              </div>
+            ))}
 
-              {/* RIGHT */}
-              {msg.isMe && (
-                <div
-                  className="flex flex-col items-end"
-                  style={{ maxWidth: "65%" }}
-                >
-                  <div
-                    className="text-xs mb-1"
-                    style={{
-                      color: "rgba(245,224,233,0.5)",
-                    }}
-                  >
-                    {msg.name}
-                  </div>
+            <div ref={bottomRef}></div>
+          </div>
 
-                  <div
-                    className="px-4 py-2 text-sm"
-                    style={{
-                      background:
-                        "linear-gradient(135deg, #3d3070, #4a2a7a)",
-                      border:
-                        "0.5px solid rgba(180,140,220,0.3)",
-                      borderRadius: "18px 18px 5px 18px",
-                      color: "#f5e0e9",
-                    }}
-                  >
-                    {msg.text}
-                  </div>
-
-                  <div
-                    className="text-xs mt-1"
-                    style={{
-                      color: "rgba(245,224,233,0.32)",
-                    }}
-                  >
-                    {msg.time}
-                  </div>
-                </div>
-              )}
-            </div>
-          ))}
-
-          {/* AUTO SCROLL TARGET */}
-          <div ref={bottomRef}></div>
-        </div>
-
-        {/* INPUT */}
-        <div
-          className="flex items-center gap-2 px-4 py-2 mt-2 rounded-full"
-          style={{
-            background: "rgba(245,224,233,0.08)",
-            border: "0.5px solid rgba(245,224,233,0.18)",
-          }}
-        >
-          <input
-            type="text"
-            placeholder={`Message ${selectedYear} room...`}
-            className="flex-1 bg-transparent outline-none text-sm"
-            style={{ color: "#f5e0e9" }}
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            onKeyDown={(e) =>
-              e.key === "Enter" && handleSend()
-            }
-          />
-
-          <button
-            className="flex items-center justify-center rounded-full hover:scale-105 transition"
+          <div
+            className="flex items-center gap-2 px-4 py-2 mt-2 rounded-full"
             style={{
-              width: "36px",
-              height: "36px",
-              background: input.trim()
-                ? "#3a2870"
-                : "rgba(245,224,233,0.08)",
-              color: input.trim()
-                ? "#f5e0e9"
-                : "rgba(245,224,233,0.25)",
-              cursor: input.trim() ? "pointer" : "not-allowed",
+              background: "rgba(217,203,194,0.08)",
+              border: "0.5px solid rgba(217,203,194,0.18)",
             }}
-            onClick={handleSend}
-            disabled={!input.trim()}
           >
-            <Send size={16} />
-          </button>
+            <input
+              type="text"
+              placeholder={`Message ${selectedYear || "general"} room...`}
+              className="flex-1 bg-transparent outline-none text-sm"
+              style={{ color: "#D9CBC2" }}
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              onKeyDown={(e) => e.key === "Enter" && handleSend()}
+            />
+
+            <button
+              className="flex items-center justify-center rounded-full hover:scale-105 transition"
+              style={{
+                width: "36px",
+                height: "36px",
+                background: input.trim()
+                  ? "linear-gradient(135deg, #c9a96e, #E0C58F)"
+                  : "rgba(217,203,194,0.08)",
+                color: input.trim()
+                  ? "#0d1b3e"
+                  : "rgba(217,203,194,0.25)",
+                cursor: input.trim() ? "pointer" : "not-allowed",
+              }}
+              onClick={handleSend}
+              disabled={!input.trim()}
+            >
+              <Send size={16} />
+            </button>
+          </div>
         </div>
       </div>
-    </div>
-  </>);
+    </>
+  );
 }
  

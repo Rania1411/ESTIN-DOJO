@@ -29,7 +29,6 @@ function Leaderboard() {
     localStorage.setItem("users", JSON.stringify(users));
   }, [users]);
 
-
   const filteredUsers =
     selected === "All years"
       ? users
@@ -39,6 +38,7 @@ function Leaderboard() {
 
   const top3 = sortedUsers.slice(0, 3);
   const others = sortedUsers.slice(3);
+
   const podium = [
     top3[1] || null,
     top3[0] || null,
@@ -50,14 +50,18 @@ function Leaderboard() {
 
   return (
     <>
-      <Header />
+      <Header year={selected !== "All years" ? selected : null} />
+
       <div className={styles.LeaderboardContainer}>
         <div className={styles.card}>
 
-        
           <div className={styles.LeaderboardHead}>
             <div>
-              <h2>Study Leaderboard</h2>
+              <h2>
+                {selected === "All years"
+                  ? "All Years Leaderboard"
+                  : `${selected} Leaderboard`}
+              </h2>
               <p>Ranked by total focus time</p>
             </div>
 
@@ -73,6 +77,7 @@ function Leaderboard() {
           </div>
 
           <div className={styles.divider} />
+
           <div className={styles.top3}>
             {podium.map((user, i) =>
               user && (
@@ -109,7 +114,6 @@ function Leaderboard() {
 
         </div>
       </div>
-     
     </>
   );
 }
