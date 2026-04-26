@@ -208,9 +208,6 @@ function Landing() {
             <button className={styles.cta} onClick={() => navigate("/login")}>
               <span>Enter the Dojo →</span>
             </button>
-            <button className={styles.ctaSecondary} onClick={() => navigate("/Leaderboard")}>
-              View Leaderboard
-            </button>
           </div>
 
           <div className={styles.stats}>
@@ -245,7 +242,7 @@ function Landing() {
           </div>
         </div>
 
-        {/* ── Features ── */}
+     
         <section className={styles.features}>
           <div className={`${styles.sectionHead} ${styles.reveal}`}>
             <h2>Everything You Need</h2>
