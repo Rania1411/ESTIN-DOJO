@@ -23,7 +23,7 @@ useEffect(() => {
     setTime((prev) => {
     if (prev <= 1) {
   setIsRunning(false);
-  setHasStarted(false); // 👈 THIS LINE
+  setHasStarted(false); 
   return 0;
 }
       return prev - 1;
@@ -44,6 +44,7 @@ useEffect(() => {
     }}
     mode={mode}
     moduleName={moduleName}
+     onDelete={() => setHasStarted(false)}
   />
 )}
       <Routes>
