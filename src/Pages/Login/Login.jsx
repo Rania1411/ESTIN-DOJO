@@ -113,11 +113,6 @@ function Login() {
             </button>
           </form>
 
-          <p className={styles.footer}>
-            Don't have an account?{" "}
-            <span onClick={() => navigate("/signup")}>Sign up</span>
-          </p>
-
         </div>
       </div>
       <Footer />

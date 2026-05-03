@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=DM+Sans:wght@300;400;500;600&display=swap');
 
 .container {
-  min-height: 100px;
+  min-height: 80vh;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -11,6 +11,7 @@
     radial-gradient(ellipse 35% 35% at 88% 85%, rgba(224,197,143,0.1) 0%, transparent 55%);
   font-family: 'DM Sans', sans-serif;
   padding: 20px;
+    overflow-y: auto;
 }
 .container::before {
   content: '';
@@ -43,6 +44,7 @@
 }
 
 .welcome {
+ 
   text-align: center;
   margin-bottom: 38px;
 }
@@ -194,8 +196,6 @@
   text-decoration: underline;
   text-underline-offset: 2px;
 }
-
-
 .errorBanner {
   display: flex;
   align-items: center;

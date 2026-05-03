@@ -3,32 +3,32 @@ import { Play, Pause } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 const formatTime = (seconds) => {
-  const s = typeof seconds === "number" ? seconds : 0; // ✅ prevent NaN
+  const s = typeof seconds === "number" ? seconds : 0;
   return `${Math.floor(s / 60)
     .toString()
     .padStart(2, "0")}:${(s % 60).toString().padStart(2, "0")}`;
 };
 
 export default function MiniTimer({
-  time = 0,              // ✅ default values
+  time = 0,
   isRunning = false,
   toggleRunning = () => {},
   mode = "Pomodoro",
   moduleName = "",
+  onDelete = () => {}, // ✅ NEW PROP
 }) {
   const navigate = useNavigate();
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [dragging, setDragging] = useState(false);
   const dragStartRef = useRef({ x: 0, y: 0, originX: 0, originY: 0 });
 
-  // ✅ initial position (bottom right)
+ 
   useEffect(() => {
     const initialX = window.innerWidth - 260;
     const initialY = window.innerHeight - 180;
     setPosition({ x: initialX, y: initialY });
   }, []);
 
-  // ✅ drag logic
   useEffect(() => {
     if (!dragging) return;
 
@@ -74,7 +74,7 @@ export default function MiniTimer({
         cursor: dragging ? "grabbing" : "default",
       }}
     >
-      {/* HEADER */}
+   
       <div
         onMouseDown={startDrag}
         className="flex items-start justify-between gap-3 cursor-move"
@@ -86,16 +86,30 @@ export default function MiniTimer({
           <p className="text-lg font-semibold text-white">{mode}</p>
         </div>
 
-        <button
-          onClick={toggleRunning}
-          className="rounded-full bg-[#dfb259] p-2 text-[#112250] hover:brightness-110"
-        >
-          {isRunning ? (
-            <Pause className="w-4 h-4" />
-          ) : (
-            <Play className="w-4 h-4" />
-          )}
-        </button>
+        <div className="flex gap-2">
+        
+          <button
+            onClick={toggleRunning}
+            className="rounded-full bg-[#dfb259] p-2 text-[#112250] hover:brightness-110"
+          >
+            {isRunning ? (
+              <Pause className="w-4 h-4" />
+            ) : (
+              <Play className="w-4 h-4" />
+            )}
+          </button>
+
+        
+          <button
+          
+            onClick={()=>{
+              console.log(" clicked");
+              onDelete();}}
+            className="rounded-full bg-red-500 p-2 text-white hover:brightness-110"
+          >
+            ✕
+          </button>
+        </div>
       </div>
 
       {/* TIME */}
@@ -110,7 +124,7 @@ export default function MiniTimer({
 
       {/* NAVIGATION */}
       <button
-        onClick={() => navigate("/Dashboard")} // ✅ FIXED ROUTE
+        onClick={() => navigate("/Dashboard")}
         className="mt-4 w-full rounded-full bg-[#dfb259] px-4 py-2 text-sm font-semibold text-[#112250] hover:brightness-110"
       >
         Open full timer
