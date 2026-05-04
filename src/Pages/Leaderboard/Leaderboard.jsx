@@ -3,6 +3,7 @@ import styles from './Leaderboard.module.css';
 import pic from '../../assets/pro.jpg';
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { API_URL } from "../../api";
 
 function Leaderboard() {
   const [selected, setSelected] = useState("All years");
@@ -22,7 +23,7 @@ function Leaderboard() {
   useEffect(() => {
     const fetchLeaderboard = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/leaderboard/global");
+        const res = await axios.get(`${API_URL}/api/leaderboard/global`);
         const mappedUsers = res.data.map((u) => ({
           id: u._id,
           name: u.name,

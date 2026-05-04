@@ -3,8 +3,9 @@ import { useState, useEffect, useRef } from "react";
 import Header from "../../Components/Header/Header.jsx";
 import { io } from "socket.io-client";
 import axios from "axios";
+import { API_URL } from "../../api";
 
-const socket = io("http://localhost:5000");
+const socket = io(API_URL);
 
 export default function Chat({ selectedYear }) {
   const [input, setInput] = useState("");
@@ -20,7 +21,7 @@ export default function Chat({ selectedYear }) {
   useEffect(() => {
     const loadHistory = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/chat", {
+        const res = await axios.get(`${API_URL}/api/chat`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         const history = res.data.map((m) => ({
@@ -71,7 +72,7 @@ export default function Chat({ selectedYear }) {
     try {
       // Persist to DB — the backend will also emit via socket
       await axios.post(
-        "http://localhost:5000/api/chat",
+        `${API_URL}/api/chat`,
         { content: text },
         { headers: { Authorization: `Bearer ${token}` } }
       );

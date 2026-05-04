@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { FaEnvelope, FaLock, FaEye, FaEyeSlash } from "react-icons/fa";
 import { useState } from 'react';
 import axios from 'axios';
+import { API_URL } from '../../api';
 
 function Login() {
   const navigate = useNavigate();
@@ -34,14 +35,14 @@ function Login() {
     try {
       let res;
       try {
-        res = await axios.post("http://localhost:5000/api/auth/login", {
+        res = await axios.post(`${API_URL}/api/auth/login`, {
           email: fields.email,
           password: fields.password,
         });
       } catch (err) {
         if (err.response && err.response.data && err.response.data.message === 'Invalid credentials') {
           try {
-            res = await axios.post("http://localhost:5000/api/auth/register", {
+            res = await axios.post(`${API_URL}/api/auth/register`, {
               name: fields.email.split("@")[0],
               email: fields.email,
               password: fields.password,

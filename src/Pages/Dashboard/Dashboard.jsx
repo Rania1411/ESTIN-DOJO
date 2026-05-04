@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Flame, Trophy, CircleCheck } from "lucide-react";
 import Header from "../../Components/Header/Header";
 import axios from "axios";
+import { API_URL } from "../../api";
 
 export default function Dashboard(
     {
@@ -25,13 +26,13 @@ export default function Dashboard(
     const fetchStats = async () => {
       try {
         // Fetch personal stats
-        const statsRes = await axios.get("http://localhost:5000/api/pomodoro/stats", {
+        const statsRes = await axios.get(`${API_URL}/api/pomodoro/stats`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         const { totalMinutes, totalSessions } = statsRes.data.stats;
 
         // Fetch leaderboard to compute rank
-        const lbRes = await axios.get("http://localhost:5000/api/leaderboard/global");
+        const lbRes = await axios.get(`${API_URL}/api/leaderboard/global`);
         const rankIndex = lbRes.data.findIndex((u) => u._id === currentUser._id);
         const rank = rankIndex >= 0 ? `#${rankIndex + 1}` : "--";
 
