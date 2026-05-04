@@ -4,6 +4,7 @@ import logo from "../../assets/dojo.png";
 import { useNavigate } from "react-router-dom";
 import { FaEnvelope, FaLock } from "react-icons/fa";
 import { useState } from 'react';
+import axios from 'axios';
 
 function Login() {
   const navigate = useNavigate();
@@ -18,36 +19,52 @@ function Login() {
     if (error) setError("");
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!fields.email || !fields.password) { setError("Please fill in all fields."); return; }
 
     setLoading(true);
 
-    setTimeout(() => {
-      if (!fields.email.endsWith("@estin.dz")) {
-        setError("Email must be an @estin.dz address.");
-        setLoading(false);
-        return;
-      }
-      const newUser = {
-        id: Date.now(),
-        name: fields.email.split("@")[0],
-        hours: 0,
-        year:['1cp','2cp','1cs','2cs','3cs']
-      };
-
-      const existingUsers = JSON.parse(localStorage.getItem("users")) || [];
-      const exists = existingUsers.find(u => u.name === newUser.name);
-      if (!exists) {
-        existingUsers.push(newUser);
-        localStorage.setItem("users", JSON.stringify(existingUsers));
-      }
-
-      localStorage.setItem("currentUser", JSON.stringify(newUser));
-      navigate("/dashboard");
+    if (!fields.email.endsWith("@estin.dz")) {
+      setError("Email must be an @estin.dz address.");
       setLoading(false);
-    }, 1500);
+      return;
+    }
+
+    try {
+      let res;
+      try {
+        res = await axios.post("http://localhost:5000/api/auth/login", {
+          email: fields.email,
+          password: fields.password,
+        });
+      } catch (err) {
+        if (err.response && err.response.data && err.response.data.message === 'Invalid credentials') {
+          try {
+            res = await axios.post("http://localhost:5000/api/auth/register", {
+              name: fields.email.split("@")[0],
+              email: fields.email,
+              password: fields.password,
+              year: "1CP"
+            });
+          } catch (registerErr) {
+            if (registerErr.response && registerErr.response.data && registerErr.response.data.message === 'User already exists') {
+              throw new Error("Invalid email or wrong password");
+            }
+            throw registerErr;
+          }
+        } else {
+          throw err;
+        }
+      }
+
+      localStorage.setItem("currentUser", JSON.stringify(res.data));
+      navigate("/dashboard");
+    } catch (err) {
+      setError(err.response?.data?.message || "An error occurred during authentication.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
