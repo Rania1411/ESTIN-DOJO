@@ -21,7 +21,7 @@ const deleteUser = async (req, res, next) => {
     res.status(200).json(result);
   } catch (error) {
     if (error.message === 'User not found') res.status(404);
-    next(error);
+    return next(error);
   }
 };
 
@@ -34,7 +34,7 @@ const updateUserRole = async (req, res, next) => {
     res.status(200).json(result);
   } catch (error) {
     if (error.message === 'User not found') res.status(404);
-    next(error);
+    return next(error);
   }
 };
 
@@ -59,7 +59,7 @@ const deleteMessage = async (req, res, next) => {
     res.status(200).json(result);
   } catch (error) {
     if (error.message === 'Message not found') res.status(404);
-    next(error);
+    return next(error);
   }
 };
 
