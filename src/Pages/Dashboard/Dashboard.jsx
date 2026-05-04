@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Flame, Trophy, CircleCheck } from "lucide-react";
 import Header from "../../Components/Header/Header";
+import axios from "axios";
 
 export default function Dashboard(
     {
@@ -15,7 +16,36 @@ export default function Dashboard(
   setHasStarted,}
 ) {
   const currentUser = JSON.parse(localStorage.getItem("currentUser")) || {};
+  const token = currentUser.token || "";
   const [year, setYear] = useState(currentUser.year || "");
+  const [stats, setStats] = useState({ totalMinutes: 0, totalSessions: 0, rank: "--" });
+
+  useEffect(() => {
+    if (!token) return;
+    const fetchStats = async () => {
+      try {
+        // Fetch personal stats
+        const statsRes = await axios.get("http://localhost:5000/api/pomodoro/stats", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        const { totalMinutes, totalSessions } = statsRes.data.stats;
+
+        // Fetch leaderboard to compute rank
+        const lbRes = await axios.get("http://localhost:5000/api/leaderboard/global");
+        const rankIndex = lbRes.data.findIndex((u) => u._id === currentUser._id);
+        const rank = rankIndex >= 0 ? `#${rankIndex + 1}` : "--";
+
+        setStats({
+          totalMinutes: totalMinutes || 0,
+          totalSessions: totalSessions || 0,
+          rank,
+        });
+      } catch (err) {
+        console.error("Failed to load stats", err);
+      }
+    };
+    fetchStats();
+  }, [token]);
 
   const modulesByYear = {
     "1CP": ["Algebra", "Analysis", "Intro to OS", "Algo & Data structures", "Computer Architecture", "BEW", "Electricity", "French", "Electronics", "Particle mechanics", "English"],
@@ -147,9 +177,9 @@ const toggleRunning = () => {
         {/* STATS */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {[
-            { i: <Flame />, v: "4.5h", l: "TOTAL FOCUS" },
-            { i: <CircleCheck />, v: "8", l: "COMPLETED" },
-            { i: <Trophy />, v: "#12", l: "RANKING" },
+            { i: <Flame />,       v: `${(stats.totalMinutes / 60).toFixed(1)}h`, l: "TOTAL FOCUS" },
+            { i: <CircleCheck />, v: `${stats.totalSessions}`,                    l: "COMPLETED" },
+            { i: <Trophy />,      v: stats.rank,                                  l: "RANKING" },
           ].map((s, i) => (
             <div key={i} className="bg-[#3C507D]/40 p-6 rounded-[2rem] flex items-center gap-6">
               <div className="text-[#E0C58F]">{s.i}</div>
