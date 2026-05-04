@@ -1,16 +1,16 @@
 import { FaTrophy, FaBookOpen, FaComments } from 'react-icons/fa';
 import { LuTimer } from "react-icons/lu";
-import { useState } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import styles from './Header.module.css';
 import proImg from '../../assets/pro.jpg';
 import logo from '../../assets/dojo.png';
-import { useNavigate, useLocation } from 'react-router-dom';
 
 function Header() {
   const navigate = useNavigate();
   const location = useLocation();
-  const [name] = useState("User Name");
-  const [image] = useState(proImg);
+  const currentUser = JSON.parse(localStorage.getItem("currentUser")) || {};
+  const name = currentUser.name || "User";
+  const image = proImg;
 
   const navLinks = [
     { path: '/Dashboard',            icon: <LuTimer />,  label: 'Timer' },
